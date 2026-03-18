@@ -1,0 +1,79 @@
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+  width: 100%;
+  height: 700px;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #ececec;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 200px 420px;
+  justify-content: center;
+  column-gap: 220px;
+  padding-top: 70px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-family: "Geometos", sans-serif;
+  font-size: 14px;
+  letter-spacing: 1.4px;
+  margin-bottom: 34px;
+  color: #5a5a5a;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  margin-bottom: 20px;
+  line-height: 20px;
+}
+
+.link {
+  font-family: "GeometosSoft", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.6px;
+  color: #6a6a6a;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.link:hover {
+  opacity: 0.5;
+}
+
+.imageBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+.caption {
+  margin-top: 18px;
+  font-family: "GeometosSoft", sans-serif;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #666;
+}

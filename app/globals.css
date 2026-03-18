@@ -1,0 +1,33 @@
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+@font-face {
+  font-family: "Geometos";
+  src: url("/fonts/geometos.ttf");
+}
+
+@font-face {
+  font-family: "GeometosSoft";
+  src: url("/fonts/geometos-soft.ttf");
+}
+
+.font-geometos {
+  font-family: "Geometos", sans-serif;
+}
+
+.font-geometosSoft {
+  font-family: "GeometosSoft", sans-serif;
+}
