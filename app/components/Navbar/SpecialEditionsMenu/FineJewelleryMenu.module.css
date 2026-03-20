@@ -11,7 +11,7 @@
   border-top: 1px solid #ececec;
   opacity: 0;
   transform: translateY(-8px);
-  animation: luxuryDropdown 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: luxuryDropdown 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   will-change: transform, opacity;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
@@ -20,9 +20,9 @@
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 150px 150px 420px;
+  grid-template-columns: 220px 150px 420px;
   justify-content: center;
-  column-gap: 160px;
+  column-gap: 140px;
   padding-top: 70px;
 }
 
@@ -39,10 +39,18 @@
   color: #5a5a5a;
 }
 
+.subTitle {
+  font-family: "Geometos", sans-serif;
+  font-size: 13px;
+  letter-spacing: 1.2px;
+  margin: 12px 0 16px 0;
+  color: #5a5a5a;
+}
+
 .list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 0 0 18px 0;
 }
 
 .list li {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
 import Loader from "./components/Loader/Loader";
@@ -9,20 +9,27 @@ import "./globals.css";
 export default function RootLayout({ children }) {
 
   const [loading, setLoading] = useState(true);
+  const pageReady = useRef(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000); // adjust timing
-
-    return () => clearTimeout(timer);
+    const onLoad = () => { pageReady.current = true; };
+    if (document.readyState === "complete") {
+      pageReady.current = true;
+    } else {
+      window.addEventListener("load", onLoad);
+      return () => window.removeEventListener("load", onLoad);
+    }
   }, []);
+
+  const handleLoopComplete = () => {
+    if (pageReady.current) setLoading(false);
+  };
 
   return (
     <html lang="en">
       <body>
 
-        {loading && <Loader />}
+        {loading && <Loader onLoopComplete={handleLoopComplete} />}
 
         <Navbar />
 

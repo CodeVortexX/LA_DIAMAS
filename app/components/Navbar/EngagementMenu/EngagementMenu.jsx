@@ -1,7 +1,7 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
-import { Fragment } from "react";
 import styles from "./EngagementMenu.module.css";
 import {
   engagementMenu,
@@ -21,7 +21,9 @@ export default function EngagementMenu() {
           <ul className={styles.list}>
             {engagementMenu.map((item) => (
               <li key={item.link}>
-                <Link href={item.link} className={styles.link}>{item.title}</Link>
+                <Link href={item.link} className={styles.link}>
+                  {item.title}
+                </Link>
               </li>
             ))}
           </ul>
@@ -33,7 +35,9 @@ export default function EngagementMenu() {
           <ul className={styles.list}>
             {engagementShapes.map((item) => (
               <li key={item.link}>
-                <Link href={item.link} className={styles.link}>{item.title}</Link>
+                <Link href={item.link} className={styles.link}>
+                  {item.title}
+                </Link>
               </li>
             ))}
           </ul>
@@ -45,7 +49,9 @@ export default function EngagementMenu() {
           <ul className={styles.list}>
             {engagementMetals.map((item) => (
               <li key={item.link}>
-                <Link href={item.link} className={styles.link}>{item.title}</Link>
+                <Link href={item.link} className={styles.link}>
+                  {item.title}
+                </Link>
               </li>
             ))}
           </ul>
@@ -53,22 +59,32 @@ export default function EngagementMenu() {
 
         {/* COLUMN 4 — GUIDE */}
         <div className={styles.column}>
-          <h4 className={styles.heading}>DESIGN & DIAMOND GUIDE</h4>
-          <ul className={styles.list}>
-            {engagementGuide.map((item) => (
-              <Fragment key={item.link}>
-                {item.highlight && <div className={styles.divider} />}
-                <li>
-                  <Link
-                    href={item.link}
-                    className={`${styles.link} ${item.highlight ? styles.highlight : ""}`}
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              </Fragment>
-            ))}
-          </ul>
+          {engagementGuide.map((group, index) => (
+            <div key={index} className={styles.group}>
+
+              <h4 className={styles.heading}>{group.title}</h4>
+
+              <ul className={styles.list}>
+                {group.items.map((item) => (
+                  <React.Fragment key={item.link}>
+
+                    <li>
+                      <Link href={item.link} className={styles.link}>
+                        {item.title}
+                      </Link>
+                    </li>
+
+                    {/* ✅ Divider after Signature */}
+                    {item.title === "SIGNATURE ENGAGEMENT RINGS" && (
+                      <div className={styles.divider}></div>
+                    )}
+
+                  </React.Fragment>
+                ))}
+              </ul>
+
+            </div>
+          ))}
         </div>
 
       </div>

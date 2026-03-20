@@ -52,13 +52,23 @@ export const engagementMetals = [
 ];
 
 export const engagementGuide = [
-  { title: "DESIGN YOUR RING",           link: "/ring-builder" },
-  { title: "CHOOSE A DIAMOND",           link: "/diamonds" },
-  { title: "CHOOSE A SETTING",           link: "/settings" },
-  { title: "BRIDAL SETS",                link: "/engagement/bridal-sets" },
-  { title: "SIGNATURE ENGAGEMENT RINGS", link: "/engagement/signature", highlight: true },
-  { title: "THE 4CS GUIDE",              link: "/guides/4cs" },
-  { title: "NATURAL VS LAB-GROWN",       link: "/guides/natural-vs-lab" },
-  { title: "DIAMOND CERTIFICATION",      link: "/guides/certification" },
-  { title: "RING SIZE GUIDE",            link: "/guides/ring-size" },
+  {
+    title: "DESIGN & DIAMOND GUIDE",
+    items: [
+      { title: "DESIGN YOUR RING", link: "/ring-builder" },
+      { title: "CHOOSE A DIAMOND", link: "/diamonds" },
+      { title: "CHOOSE A SETTING", link: "/settings" },
+      { title: "BRIDAL SETS", link: "/engagement/bridal-sets" },
+      { title: "SIGNATURE ENGAGEMENT RINGS", link: "/engagement/signature" },
+    ],
+  },
+  {
+    title: "GUIDES",
+    items: [
+      { title: "THE 4CS GUIDE", link: "/guides/4cs" },
+      { title: "NATURAL VS LAB-GROWN", link: "/guides/natural-vs-lab" },
+      { title: "DIAMOND CERTIFICATION", link: "/guides/certification" },
+      { title: "RING SIZE GUIDE", link: "/guides/ring-size" },
+    ],
+  },
 ];

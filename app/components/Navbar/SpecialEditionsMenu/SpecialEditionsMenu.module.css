@@ -9,6 +9,11 @@
   display: flex;
   justify-content: center;
   border-top: 1px solid #ececec;
+  opacity: 0;
+  transform: translateY(-8px);
+  animation: luxuryDropdown 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, opacity;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
 .container {
@@ -76,4 +81,15 @@
   font-size: 12px;
   letter-spacing: 1px;
   color: #666;
+}
+
+@keyframes luxuryDropdown {
+  0% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
