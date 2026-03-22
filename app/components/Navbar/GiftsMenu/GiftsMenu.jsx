@@ -40,13 +40,14 @@ export default function GiftsMenu() {
         {/* IMAGE COLUMN */}
         <div className={styles.imageBox}>
 
-          <Image
-            src="/images/gift-menu.jpg"
-            alt="gift jewellery"
-            width={420}
-            height={420}
-            className={styles.image}
-          />
+          <div className={styles.imageWrapper}>
+            <Image
+              src="/images/gift-menu.jpg"
+              alt="gift jewellery"
+              fill
+              className={styles.image}
+            />
+          </div>
 
           <p className={styles.caption}>
             "A GIFT BEYOND TIME"

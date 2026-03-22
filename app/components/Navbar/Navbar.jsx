@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 import Header from "./Header/Header";
+
 import EngagementMenu from "./EngagementMenu/EngagementMenu";
 import WeddingMenu from "./WeddingMenu/WeddingMenu";
 import FineJewelleryMenu from "./FineJewelleryMenu/FineJewelleryMenu";
@@ -23,13 +24,21 @@ const navItems = [
 
 export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [renderDropdown, setRenderDropdown] = useState(false);
+  const [showNavbar, setShowNavbar] = useState(true);
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
   const menuRef = useRef(null);
   const itemRefs = useRef([]);
+  const lastScrollY = useRef(0);
+  const hoverTimeout = useRef(null);
+  const scrollTimeout = useRef(null);
 
+  // ================= HOVER =================
   const handleHover = (index, key) => {
     const el = itemRefs.current[index];
+
     if (el) {
       const rect = el.getBoundingClientRect();
       const parentRect = menuRef.current.getBoundingClientRect();
@@ -39,28 +48,80 @@ export default function Navbar() {
         width: rect.width,
       });
     }
-    setActiveMenu(key);
+
+    clearTimeout(hoverTimeout.current);
+
+    hoverTimeout.current = setTimeout(() => {
+      if (!isOpen) {
+        setRenderDropdown(true); // mount first
+        setIsOpen(true);
+      }
+      setActiveMenu(key);
+    }, 100);
   };
 
+  // ================= CLOSE =================
+  const handleLeave = () => {
+    setIsOpen(false);
+
+    setTimeout(() => {
+      setActiveMenu(null);
+      setRenderDropdown(false);
+      setUnderlineStyle({ left: 0, width: 0 });
+    }, 550); // match CSS
+  };
+
+  // ================= SCROLL =================
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+
+      if (currentScroll > lastScrollY.current && currentScroll > 80) {
+        setShowNavbar(false);
+
+        clearTimeout(scrollTimeout.current);
+
+        setIsOpen(false);
+
+        scrollTimeout.current = setTimeout(() => {
+          setActiveMenu(null);
+          setRenderDropdown(false);
+        }, 550);
+
+      } else {
+        setShowNavbar(true);
+      }
+
+      lastScrollY.current = currentScroll;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className={styles.wrapper} onMouseLeave={() => setActiveMenu(null)}>
+    <div
+      className={`${styles.wrapper} ${
+        showNavbar ? styles.show : styles.hide
+      }`}
+      onMouseLeave={handleLeave}
+    >
       <Header />
 
       <nav className={styles.navbar}>
-
-        {/* LOGO */}
         <div className={styles.logo}>
-          <Image src="/logos/LOGO.svg" alt="Al Diamas logo" width={61} height={30} />
-          <Image src="/logos/LOGO_NAME.svg" alt="Al Diamas" width={129} height={26} />
+          <Image src="/logos/LOGO.svg" alt="logo" width={61} height={30} />
+          <Image src="/logos/LOGO_NAME.svg" alt="name" width={129} height={26} />
         </div>
 
-        {/* NAV LINKS */}
         <ul className={styles.menu} ref={menuRef}>
           {navItems.map((item, index) => (
             <li
               key={item.key}
               ref={(el) => (itemRefs.current[index] = el)}
-              className={`${styles.menuItem} ${activeMenu === item.key ? styles.active : ""}`}
+              className={`${styles.menuItem} ${
+                activeMenu === item.key ? styles.active : ""
+              }`}
               onMouseEnter={() => handleHover(index, item.key)}
             >
               <Link href={`/${item.key}`} className={styles.menuLink}>
@@ -69,35 +130,43 @@ export default function Navbar() {
             </li>
           ))}
 
-          {/* 🔥 UNDERLINE ELEMENT */}
           <span
             className={styles.underline}
             style={{
               left: underlineStyle.left,
               width: underlineStyle.width,
+              opacity: underlineStyle.width ? 1 : 0,
             }}
           />
         </ul>
 
-        {/* ICONS */}
         <div className={styles.icons}>
           <button className={styles.iconBtn}>
-            <Image src="/icons/user_profile_icon.svg" alt="Account" width={22} height={22} />
+            <Image src="/icons/user_profile_icon.svg" alt="user" width={22} height={22} />
           </button>
           <button className={styles.iconBtn}>
-            <Image src="/icons/search_icon.svg" alt="Search" width={20} height={20} />
+            <Image src="/icons/search_icon.svg" alt="search" width={20} height={20} />
           </button>
         </div>
 
+        {/* ===== DROPDOWN ===== */}
+        <div
+          className={`${styles.dropdownWrapper} ${
+            isOpen ? styles.open : styles.close
+          }`}
+        >
+          {renderDropdown && (
+            <>
+              {activeMenu === "engagement" && <EngagementMenu />}
+              {activeMenu === "wedding" && <WeddingMenu />}
+              {activeMenu === "fine_jewellery" && <FineJewelleryMenu />}
+              {activeMenu === "gifts" && <GiftsMenu />}
+              {activeMenu === "diamond_world" && <DiamondWorldMenu />}
+              {activeMenu === "special_editions" && <SpecialEditionsMenu />}
+            </>
+          )}
+        </div>
       </nav>
-
-      {/* DROPDOWNS */}
-      {activeMenu === "engagement" && <EngagementMenu />}
-      {activeMenu === "wedding" && <WeddingMenu />}
-      {activeMenu === "fine_jewellery" && <FineJewelleryMenu />}
-      {activeMenu === "gifts" && <GiftsMenu />}
-      {activeMenu === "diamond_world" && <DiamondWorldMenu />}
-      {activeMenu === "special_editions" && <SpecialEditionsMenu />}
     </div>
   );
 }

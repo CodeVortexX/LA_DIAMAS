@@ -54,13 +54,14 @@ export default function FineJewelleryMenu() {
         {/* COLUMN 3 IMAGE */}
         <div className={styles.imageBox}>
 
-          <Image
-            src="/images/fine-jewellery.jpg"
-            alt="fine jewellery"
-            width={420}
-            height={420}
-            className={styles.image}
-          />
+          <div className={styles.imageWrapper}>
+            <Image
+              src="/images/fine-jewellery.jpg"
+              alt="fine jewellery"
+              fill
+              className={styles.image}
+            />
+          </div>
 
           <p className={styles.caption}>
             "EVERYDAY ELEGANCE"
