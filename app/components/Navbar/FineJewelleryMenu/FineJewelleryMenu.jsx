@@ -1,16 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./FineJewelleryMenu.module.css";
+import OptimizedImage from "../../common/OptimizedImage";
 
 export default function FineJewelleryMenu() {
   return (
     <div className={styles.menu}>
-
       <div className={styles.container}>
 
-        {/* COLUMN 1 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>SHOP BY CATEGORIES</h4>
 
@@ -23,10 +21,7 @@ export default function FineJewelleryMenu() {
           </ul>
         </div>
 
-
-        {/* COLUMN 2 */}
         <div className={styles.column}>
-
           <h4 className={styles.heading}>STYLE & FOR</h4>
 
           <p className={styles.subTitle}>STYLES</p>
@@ -47,29 +42,25 @@ export default function FineJewelleryMenu() {
             <li><Link href="/fine-jewellery/for-him" className={styles.link}>FOR HIM</Link></li>
             <li><Link href="/fine-jewellery/unisex" className={styles.link}>UNISEX</Link></li>
           </ul>
-
         </div>
 
-
-        {/* COLUMN 3 IMAGE */}
         <div className={styles.imageBox}>
-
-          <Image
-            src="/images/fine-jewellery.jpg"
-            alt="fine jewellery"
-            width={420}
-            height={420}
-            className={styles.image}
-          />
+          <div className={styles.imageWrapper}>
+            <OptimizedImage
+              src="/images/NAVBAR/fine-jewellery.jpg"
+              alt="fine jewellery"
+              width={585}
+              height={390}
+              className={styles.image}
+            />
+          </div>
 
           <p className={styles.caption}>
             "EVERYDAY ELEGANCE"
           </p>
-
         </div>
 
       </div>
-
     </div>
   );
 }

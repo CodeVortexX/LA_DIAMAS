@@ -1,41 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import styles from "./Footer.module.css";
+import OptimizedImage from "../common/OptimizedImage";
 
-const customerCare = [
-  { label: "CONTACT US",                    href: "/contact" },
-  { label: "SHIPPING & DELIVERY",           href: "/shipping" },
-  { label: "RETURNS & EXCHANGES",           href: "/returns" },
-  { label: "RING SIZE GUIDE",               href: "/guides/ring-size" },
-  { label: "JEWELLERY CARE",                href: "/jewellery-care" },
-  { label: "FAQS",                          href: "/faqs" },
-];
-
-const aboutLinks = [
-  { label: "OUR STORY",       href: "/about" },
-  { label: "CRAFTSMANSHIP",   href: "/craftsmanship" },
-  { label: "DESIGN",          href: "/design" },
-  { label: "PHILOSOPHY",      href: "/philosophy" },
-  { label: "SUSTAINABILITY",  href: "/sustainability" },
-  { label: "ETHICAL SOURCING",href: "/ethical-sourcing" },
-];
-
-const serviceLinks = [
-  { label: "WARRANTY & LIFETIME CARE",        href: "/warranty" },
-  { label: "DIAMOND CERTIFICATION (GIA/IGI)", href: "/certification" },
-  { label: "PAYMENT METHODS",                 href: "/payment" },
-  { label: "PRIVACY POLICY",                  href: "/privacy" },
-  { label: "TERMS & CONDITIONS",              href: "/terms" },
-];
-
-const socialIcons = [
-  { src: "/icons/Instagram.svg", alt: "Instagram", href: "https://instagram.com" },
-  { src: "/icons/Twitter.svg",   alt: "Twitter",   href: "https://twitter.com" },
-  { src: "/icons/Facebook.svg",  alt: "Facebook",  href: "https://facebook.com" },
-  { src: "/icons/Youtube.svg",   alt: "YouTube",   href: "https://youtube.com" },
-];
+import {
+  customerCare,
+  aboutLinks,
+  serviceLinks,
+  socialIcons,
+} from "./footer";
 
 export default function Footer() {
   return (
@@ -43,59 +17,32 @@ export default function Footer() {
       <div className={styles.container}>
 
         {/* CUSTOMER CARE */}
-        <div className={styles.column}>
-          <h4 className={styles.heading}>CUSTOMER CARE</h4>
-          <ul className={styles.list}>
-            {customerCare.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className={styles.link}>{item.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FooterColumn title="CUSTOMER CARE" links={customerCare} />
 
         {/* ABOUT */}
-        <div className={styles.column}>
-          <h4 className={styles.heading}>ABOUT AL DIAMAS</h4>
-          <ul className={styles.list}>
-            {aboutLinks.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className={styles.link}>{item.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FooterColumn title="ABOUT AL DIAMAS" links={aboutLinks} />
 
         {/* SERVICES */}
-        <div className={styles.column}>
-          <h4 className={styles.heading}>SERVICES & POLICIES</h4>
-          <ul className={styles.list}>
-            {serviceLinks.map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} className={styles.link}>{item.label}</Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FooterColumn title="SERVICES & POLICIES" links={serviceLinks} />
 
         {/* NEWSLETTER */}
         <div className={`${styles.column} ${styles.newsletter}`}>
           <h4 className={styles.heading}>FROM AL DIAMAS</h4>
+
           <p className={styles.newsletterText}>
             BE THE FIRST TO DISCOVER NEW DESIGNS AND EXCLUSIVE RELEASES.
           </p>
+
           <input
             type="email"
             placeholder="EMAIL"
             className={styles.input}
-            autoComplete="off"
-            name="newsletter-email"
-            data-lpignore="true"
-            suppressHydrationWarning
           />
-          <button className={styles.signupBtn} suppressHydrationWarning>
+
+          <button className={styles.signupBtn}>
             SIGN UP
           </button>
+
           <div className={styles.checkRow}>
             <input type="checkbox" />
             <span>
@@ -103,10 +50,16 @@ export default function Footer() {
               VIEW OUR PRIVACY POLICY.
             </span>
           </div>
+
           <div className={styles.socialIcons}>
             {socialIcons.map((icon) => (
               <a key={icon.alt} href={icon.href} target="_blank" rel="noopener noreferrer">
-                <Image src={icon.src} alt={icon.alt} width={26} height={26} />
+                <OptimizedImage
+                  src={icon.src}
+                  alt={icon.alt}
+                  width={24}
+                  height={24}
+                />
               </a>
             ))}
           </div>
@@ -120,5 +73,23 @@ export default function Footer() {
         <span>AUSTRALIA | AUD $</span>
       </div>
     </footer>
+  );
+}
+
+/* 🔥 REUSABLE COLUMN COMPONENT */
+function FooterColumn({ title, links }) {
+  return (
+    <div className={styles.column}>
+      <h4 className={styles.heading}>{title}</h4>
+      <ul className={styles.list}>
+        {links.map((item) => (
+          <li key={item.href}>
+            <Link href={item.href} className={styles.link}>
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

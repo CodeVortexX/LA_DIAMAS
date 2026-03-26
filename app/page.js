@@ -3,6 +3,7 @@ import FineJewellery from "./sections/FineJewellery";
 import Gifts from "./sections/Gifts";
 import DiamondWorld from "./sections/DiamondWorld";
 import SpecialEditions from "./sections/SpecialEditions";
+import Hero from "./components/Hero/Hero";
 
 export default function Home() {
   return (
@@ -12,6 +13,7 @@ export default function Home() {
       <Gifts />
       <DiamondWorld />
       <SpecialEditions />
+      <Hero />
     </main>
   );
 }

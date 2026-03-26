@@ -1,24 +1,22 @@
 .menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 999;
   width: 100%;
   height: 700px;
   background: #ffffff;
   display: flex;
   justify-content: center;
   border-top: 1px solid #ececec;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
 .container {
   width: 100%;
-  height: 100%;
   display: grid;
   grid-template-columns: 150px 150px 150px 270px;
   justify-content: center;
   column-gap: 140px;
   padding-top: 70px;
+  align-items: start;
+  contain: layout paint;
 }
 
 .column {
@@ -26,11 +24,15 @@
   flex-direction: column;
 }
 
+.group {
+  margin-bottom: 20px;
+}
+
 .heading {
   font-family: "Geometos", sans-serif;
   font-size: 14px;
   letter-spacing: 1.4px;
-  margin-bottom: 34px;
+  margin-bottom: 20px;
   color: #5a5a5a;
 }
 
@@ -41,8 +43,7 @@
 }
 
 .list li {
-  margin-bottom: 20px;
-  line-height: 20px;
+  margin-bottom: 16px;
 }
 
 .link {
@@ -51,20 +52,16 @@
   letter-spacing: 0.6px;
   color: #6a6a6a;
   text-decoration: none;
-  transition: opacity 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .link:hover {
-  opacity: 0.5;
-}
-
-.highlight {
-  color: #C9A15C;
+  color: #000;
 }
 
 .divider {
   width: 210px;
   height: 1px;
   background: #d8d8d8;
-  margin: 4px 0 24px 0;
+  margin: 12px 0 18px 0;
 }

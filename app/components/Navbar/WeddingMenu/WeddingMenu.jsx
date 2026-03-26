@@ -1,16 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./WeddingMenu.module.css";
+import OptimizedImage from "../../common/OptimizedImage";
 
 export default function WeddingMenu() {
   return (
     <div className={styles.menu}>
-
       <div className={styles.container}>
 
-        {/* COLUMN 1 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>WEDDING BANDS</h4>
           <ul className={styles.list}>
@@ -22,8 +20,6 @@ export default function WeddingMenu() {
           </ul>
         </div>
 
-
-        {/* COLUMN 2 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>STYLE</h4>
           <ul className={styles.list}>
@@ -36,8 +32,6 @@ export default function WeddingMenu() {
           </ul>
         </div>
 
-
-        {/* COLUMN 3 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>SHOP BY METAL</h4>
           <ul className={styles.list}>
@@ -48,28 +42,21 @@ export default function WeddingMenu() {
           </ul>
         </div>
 
-
-        {/* COLUMN 4 → IMAGE */}
         <div className={styles.imageBox}>
-
-          <Image
-            src="/images/wedding-menu.jpg"
+          <OptimizedImage
+            src="/images/NAVBAR/wedding-menu.jpg"
             alt="wedding rings"
             width={320}
             height={420}
             className={styles.image}
-            unoptimized
-            style={{ width: "100%", height: "420px", objectFit: "cover" }}
           />
 
           <p className={styles.caption}>
             "DESIGNED FOR A LIFETIME"
           </p>
-
         </div>
 
       </div>
-
     </div>
   );
 }

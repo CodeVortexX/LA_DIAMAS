@@ -1,0 +1,148 @@
+/* ================= MAIN MENU ================= */
+
+.menu {
+  width: 100%;
+  height: 700px;
+  background: #ffffff;
+
+  display: flex;
+  justify-content: center;
+
+  border-top: 1px solid #ececec;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+}
+
+/* ================= CONTAINER ================= */
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+
+  display: grid;
+  grid-template-columns: 420px 1fr;
+
+  column-gap: 120px;
+
+  padding-top: 70px;
+  padding-left: 18px;
+  padding-right: 40px;
+
+  margin: 0 auto;
+}
+
+/* ================= LEFT ================= */
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= RIGHT ================= */
+
+.columnWide {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ================= SEARCH BOX ================= */
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  border-bottom: 1px solid #111;
+  padding-bottom: 10px;
+  margin-bottom: 35px;
+
+  width: 100%;
+}
+
+.searchBox input {
+  border: none;
+  outline: none;
+  width: 100%;
+
+  font-family: "GeometosSoft", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+
+  text-transform: uppercase;
+  background: transparent;
+}
+
+/* ================= HEADING ================= */
+
+.heading {
+  font-family: "Geometos", sans-serif;
+  font-size: 14px;
+  letter-spacing: 1.4px;
+  margin-bottom: 24px;
+  color: #5a5a5a;
+
+  text-transform: uppercase;
+}
+
+/* ================= LIST ================= */
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list li {
+  margin-bottom: 16px;
+}
+
+/* ================= LINKS ================= */
+
+.link {
+  font-family: "GeometosSoft", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.6px;
+  color: #6a6a6a;
+
+  cursor: pointer;
+  text-transform: uppercase;
+
+  transition: color 0.2s ease;
+}
+
+.link:hover {
+  color: #000;
+}
+
+/* ================= CARDS ================= */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+/* ================= CARD ================= */
+
+.card {
+  width: 100%;
+  cursor: pointer;
+}
+
+/* Fix Next.js image */
+.card :global(img) {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ================= TEXT ================= */
+
+.cardText {
+  margin-top: 12px;
+
+  font-family: "GeometosSoft", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.6px;
+
+  text-transform: uppercase;
+}

@@ -1,24 +1,24 @@
 .menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 999;
   width: 100%;
   height: 700px;
   background: #ffffff;
   display: flex;
   justify-content: center;
   border-top: 1px solid #ececec;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
 }
 
 .container {
-  width: 100%;
-  height: 100%;
   display: grid;
-  grid-template-columns: 150px 150px 420px;
-  justify-content: center;
-  column-gap: 160px;
+  grid-template-columns: 150px 150px 550px;
+  column-gap: 100px;
   padding-top: 70px;
+  padding-left: 80px;
+  padding-right: 80px;
+  align-items: start;
+  margin: 0 auto;
+  contain: layout paint;
+  animation: contentFade 0.25s ease forwards;
 }
 
 .column {
@@ -51,7 +51,6 @@
   letter-spacing: 0.6px;
   color: #6a6a6a;
   text-decoration: none;
-  transition: opacity 0.2s ease;
 }
 
 .link:hover {
@@ -64,9 +63,15 @@
   align-items: center;
 }
 
+.imageWrapper {
+  position: relative;
+  width: 585px;
+  height: 390px;
+}
+
 .image {
   width: 100%;
-  height: 420px;
+  height: 100%;
   object-fit: cover;
 }
 
@@ -76,4 +81,13 @@
   font-size: 12px;
   letter-spacing: 1px;
   color: #666;
+}
+
+@keyframes contentFade {
+  from {
+    transform: translateY(5px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

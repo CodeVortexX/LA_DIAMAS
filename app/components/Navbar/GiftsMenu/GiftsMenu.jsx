@@ -1,16 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./GiftsMenu.module.css";
+import OptimizedImage from "../../common/OptimizedImage";
 
 export default function GiftsMenu() {
   return (
     <div className={styles.menu}>
-
       <div className={styles.container}>
 
-        {/* COLUMN 1 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>OCCASIONS</h4>
 
@@ -23,8 +21,6 @@ export default function GiftsMenu() {
           </ul>
         </div>
 
-
-        {/* COLUMN 2 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>GIFT GUIDES</h4>
 
@@ -36,26 +32,23 @@ export default function GiftsMenu() {
           </ul>
         </div>
 
-
-        {/* IMAGE COLUMN */}
         <div className={styles.imageBox}>
-
-          <Image
-            src="/images/gift-menu.jpg"
-            alt="gift jewellery"
-            width={420}
-            height={420}
-            className={styles.image}
-          />
+          <div className={styles.imageWrapper}>
+            <OptimizedImage
+              src="/images/NAVBAR/gift-menu.jpg"
+              alt="gift jewellery"
+              width={585}
+              height={390}
+              className={styles.image}
+            />
+          </div>
 
           <p className={styles.caption}>
             "A GIFT BEYOND TIME"
           </p>
-
         </div>
 
       </div>
-
     </div>
   );
 }
