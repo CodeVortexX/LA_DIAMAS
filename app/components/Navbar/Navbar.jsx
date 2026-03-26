@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Navbar.module.css";
 import Header from "./Header/Header";
-
+import SearchMenu from "./SearchMenu/SearchMenu";
 import EngagementMenu from "./EngagementMenu/EngagementMenu";
 import WeddingMenu from "./WeddingMenu/WeddingMenu";
 import FineJewelleryMenu from "./FineJewelleryMenu/FineJewelleryMenu";
@@ -25,53 +25,59 @@ const navItems = [
 export default function Navbar() {
   const [activeMenu, setActiveMenu] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [renderDropdown, setRenderDropdown] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
-  const menuRef = useRef(null);
   const itemRefs = useRef([]);
   const lastScrollY = useRef(0);
-  const hoverTimeout = useRef(null);
-  const scrollTimeout = useRef(null);
+  const closeTimeout = useRef(null);
 
-  // ================= HOVER =================
-  const handleHover = (index, key) => {
+  // 🔥 HANDLE HOVER
+const handleHover = (index, key) => {
+  if (index !== -1) {
     const el = itemRefs.current[index];
 
     if (el) {
       const rect = el.getBoundingClientRect();
-      const parentRect = menuRef.current.getBoundingClientRect();
+      const parentRect = el.parentElement.getBoundingClientRect();
 
       setUnderlineStyle({
         left: rect.left - parentRect.left,
         width: rect.width,
       });
     }
+  } else {
+    // 🔥 for search icon (no underline)
+    setUnderlineStyle({ left: 0, width: 0 });
+  }
 
-    clearTimeout(hoverTimeout.current);
+  setActiveMenu(key);
+  setIsOpen(true);
+};
 
-    hoverTimeout.current = setTimeout(() => {
-      if (!isOpen) {
-        setRenderDropdown(true); // mount first
-        setIsOpen(true);
-      }
-      setActiveMenu(key);
-    }, 100);
-  };
-
-  // ================= CLOSE =================
-  const handleLeave = () => {
+const handleSearchClick = () => {
+  if (activeMenu === "search") {
+    // close if already open
     setIsOpen(false);
+    setActiveMenu(null);
+  } else {
+    // open search
+    setUnderlineStyle({ left: 0, width: 0 }); // remove underline
+    setActiveMenu("search");
+    setIsOpen(true);
+  }
+};
 
-    setTimeout(() => {
+  // 🔥 HANDLE LEAVE
+  const handleLeave = () => {
+    closeTimeout.current = setTimeout(() => {
+      setIsOpen(false);
       setActiveMenu(null);
-      setRenderDropdown(false);
       setUnderlineStyle({ left: 0, width: 0 });
-    }, 550); // match CSS
+    }, 300);
   };
 
-  // ================= SCROLL =================
+  // 🔥 SCROLL CONTROL
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
@@ -79,15 +85,10 @@ export default function Navbar() {
       if (currentScroll > lastScrollY.current && currentScroll > 80) {
         setShowNavbar(false);
 
-        clearTimeout(scrollTimeout.current);
-
+        // reset everything on hide
         setIsOpen(false);
-
-        scrollTimeout.current = setTimeout(() => {
-          setActiveMenu(null);
-          setRenderDropdown(false);
-        }, 550);
-
+        setActiveMenu(null);
+        setUnderlineStyle({ left: 0, width: 0 });
       } else {
         setShowNavbar(true);
       }
@@ -101,9 +102,7 @@ export default function Navbar() {
 
   return (
     <div
-      className={`${styles.wrapper} ${
-        showNavbar ? styles.show : styles.hide
-      }`}
+      className={`${styles.wrapper} ${showNavbar ? styles.show : styles.hide}`}
       onMouseLeave={handleLeave}
     >
       <Header />
@@ -114,14 +113,12 @@ export default function Navbar() {
           <Image src="/logos/LOGO_NAME.svg" alt="name" width={129} height={26} />
         </div>
 
-        <ul className={styles.menu} ref={menuRef}>
+        <ul className={styles.menu}>
           {navItems.map((item, index) => (
             <li
               key={item.key}
               ref={(el) => (itemRefs.current[index] = el)}
-              className={`${styles.menuItem} ${
-                activeMenu === item.key ? styles.active : ""
-              }`}
+              className={styles.menuItem}
               onMouseEnter={() => handleHover(index, item.key)}
             >
               <Link href={`/${item.key}`} className={styles.menuLink}>
@@ -130,6 +127,7 @@ export default function Navbar() {
             </li>
           ))}
 
+          {/* UNDERLINE */}
           <span
             className={styles.underline}
             style={{
@@ -140,31 +138,37 @@ export default function Navbar() {
           />
         </ul>
 
-        <div className={styles.icons}>
-          <button className={styles.iconBtn}>
-            <Image src="/icons/user_profile_icon.svg" alt="user" width={22} height={22} />
-          </button>
-          <button className={styles.iconBtn}>
-            <Image src="/icons/search_icon.svg" alt="search" width={20} height={20} />
-          </button>
-        </div>
+<div className={styles.icons}>
 
-        {/* ===== DROPDOWN ===== */}
-        <div
-          className={`${styles.dropdownWrapper} ${
-            isOpen ? styles.open : styles.close
-          }`}
-        >
-          {renderDropdown && (
-            <>
-              {activeMenu === "engagement" && <EngagementMenu />}
-              {activeMenu === "wedding" && <WeddingMenu />}
-              {activeMenu === "fine_jewellery" && <FineJewelleryMenu />}
-              {activeMenu === "gifts" && <GiftsMenu />}
-              {activeMenu === "diamond_world" && <DiamondWorldMenu />}
-              {activeMenu === "special_editions" && <SpecialEditionsMenu />}
-            </>
-          )}
+  {/* SEARCH FIRST */}
+  <button
+    className={styles.iconBtn}
+    onClick={handleSearchClick}
+  >
+    <Image src="/icons/search_icon.svg" alt="search" width={24} height={24} />
+  </button>
+
+  {/* PROFILE */}
+  <button className={styles.iconBtn}>
+    <Image src="/icons/user_profile_icon.svg" alt="user" width={22} height={22} />
+  </button>
+
+  {/* CART */}
+  <button className={styles.iconBtn}>
+    <Image src="/icons/cart.svg" alt="cart" width={22} height={22} />
+  </button>
+
+</div>
+
+        {/* DROPDOWN */}
+        <div className={`${styles.dropdownWrapper} ${isOpen ? styles.open : styles.close}`}>
+          {activeMenu === "engagement" && <EngagementMenu />}
+          {activeMenu === "wedding" && <WeddingMenu />}
+          {activeMenu === "fine_jewellery" && <FineJewelleryMenu />}
+          {activeMenu === "gifts" && <GiftsMenu />}
+          {activeMenu === "diamond_world" && <DiamondWorldMenu />}
+          {activeMenu === "special_editions" && <SpecialEditionsMenu />}
+          {activeMenu === "search" && <SearchMenu />}
         </div>
       </nav>
     </div>

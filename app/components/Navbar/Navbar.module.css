@@ -1,14 +1,19 @@
+/* ================= WRAPPER ================= */
+
 .wrapper {
   position: sticky;
   top: 0;
   z-index: 1000;
   width: 100%;
   background: #ffffff;
+
   will-change: transform;
   backface-visibility: hidden;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* little hover buffer */
 .wrapper::after {
   content: "";
   position: absolute;
@@ -18,18 +23,26 @@
   height: 20px;
 }
 
+/* ================= NAVBAR ================= */
+
 .navbar {
   position: relative;
   width: 100%;
   height: 70px;
   background: #ffffff;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   padding: 0 24px;
   box-sizing: border-box;
+
   border-bottom: 1px solid #e5e5e5;
+  z-index: 2;
 }
+
+/* ================= LOGO ================= */
 
 .logo {
   display: flex;
@@ -37,81 +50,141 @@
   gap: 12px;
 }
 
+/* ================= MENU ================= */
+
 .menu {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 36px;
+
   list-style: none;
   padding: 0;
   margin: 0;
-  position: relative;
+  height: 70px;
 }
+
+/* ================= MENU ITEM ================= */
 
 .menuItem {
   position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
 }
 
+/* hover bridge (important for smooth dropdown hover) */
+.menuItem::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: -20px;
+  width: calc(100% + 40px);
+  height: 30px;
+}
+
+/* ================= LINK ================= */
+
 .menuLink {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 10px;
+
   font-family: "GeometosSoft", sans-serif;
   font-size: 13px;
   letter-spacing: 1px;
+
   color: #111;
   text-decoration: none;
   white-space: nowrap;
+
+  transition: opacity 0.2s ease;
 }
+
+.menuLink:hover {
+  opacity: 0.7;
+}
+
+/* ================= ICONS ================= */
 
 .icons {
   display: flex;
   align-items: center;
-  gap: 20px;
+
+  gap: 18px; /* 🔥 better than 12 */
+  padding-right: 6px; /* slightly more breathing space */
 }
 
+/* each icon button */
 .iconBtn {
   background: none;
   border: none;
   cursor: pointer;
+
+  width: 36px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0; /* 🔥 important */
+
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
+
+/* hover effect */
+.iconBtn:hover {
+  transform: scale(1.08);
+  opacity: 0.75;
+}
+
+/* ================= 🔥 UNDERLINE ================= */
 
 .underline {
   position: absolute;
-  bottom: -26px;
+  bottom: 0;
+  left: 0;
+
   height: 1px;
   background: #111;
-  transition: all 0.3s ease;
-  opacity: 0;
-}
 
-.menuItem:hover ~ .underline,
-.active ~ .underline {
-  opacity: 1;
-}
+  transition: left 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              width 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.2s ease;
 
-/* ===== DROPDOWN CORE ===== */
-
-.dropdownWrapper {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  z-index: 999;
-
-  height: 0;
-  overflow: hidden;
+  z-index: 10;
   pointer-events: none;
 }
 
+/* ================= DROPDOWN ================= */
+
+.dropdownWrapper {
+  position: absolute;
+  top: calc(100% - 1px); /* removes border gap */
+  left: 0;
+  width: 100%;
+
+  height: 0;
+  overflow: hidden;
+
+  background: #fff;
+
+  transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+}
+/* OPEN STATE */
 .open {
   height: 700px;
-  pointer-events: auto;
-  transition: height 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* CLOSE STATE */
 .close {
   height: 0;
-  transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* NAVBAR SHOW / HIDE */
+/* ================= SCROLL ================= */
 
 .show {
   transform: translateY(0);
@@ -121,7 +194,7 @@
   transform: translateY(-101%);
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 
 @media (max-width: 1100px) {
   .menu {

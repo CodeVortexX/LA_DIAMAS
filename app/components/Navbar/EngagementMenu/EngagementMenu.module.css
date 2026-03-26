@@ -16,11 +16,16 @@
   column-gap: 140px;
   padding-top: 70px;
   align-items: start;
+  contain: layout paint;
 }
 
 .column {
   display: flex;
   flex-direction: column;
+}
+
+.group {
+  margin-bottom: 20px;
 }
 
 .heading {
@@ -47,8 +52,16 @@
   letter-spacing: 0.6px;
   color: #6a6a6a;
   text-decoration: none;
+  transition: color 0.2s ease;
 }
 
 .link:hover {
   color: #000;
+}
+
+.divider {
+  width: 210px;
+  height: 1px;
+  background: #d8d8d8;
+  margin: 12px 0 18px 0;
 }

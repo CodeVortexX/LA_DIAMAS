@@ -1,16 +1,14 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import styles from "./DiamondWorldMenu.module.css";
+import OptimizedImage from "../../common/OptimizedImage";
 
 export default function DiamondWorldMenu() {
   return (
     <div className={styles.menu}>
-
       <div className={styles.container}>
 
-        {/* COLUMN 1 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>OUR WORLD</h4>
 
@@ -21,8 +19,6 @@ export default function DiamondWorldMenu() {
           </ul>
         </div>
 
-
-        {/* COLUMN 2 */}
         <div className={styles.column}>
           <h4 className={styles.heading}>DIAMONDS & TRUST</h4>
 
@@ -36,27 +32,21 @@ export default function DiamondWorldMenu() {
           </ul>
         </div>
 
-
-        {/* IMAGE */}
         <div className={styles.imageBox}>
-
-          <Image
-            src="/images/diamond-world.jpg"
+          <OptimizedImage
+            src="/images/NAVBAR/diamond-world.jpg"
             alt="diamond craftsmanship"
-            width={420}
+            width={320}
             height={420}
             className={styles.image}
-            unoptimized
           />
 
           <p className={styles.caption}>
             "CRAFTED WITH PURPOSE"
           </p>
-
         </div>
 
       </div>
-
     </div>
   );
 }

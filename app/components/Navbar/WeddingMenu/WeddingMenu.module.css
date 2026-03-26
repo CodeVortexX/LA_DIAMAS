@@ -16,8 +16,7 @@
   column-gap: 140px;
   padding-top: 70px;
   align-items: start;
-
-  opacity: 0;
+  contain: layout paint;
   animation: contentFade 0.25s ease forwards;
 }
 
@@ -79,11 +78,9 @@
 
 @keyframes contentFade {
   from {
-    opacity: 0;
     transform: translateY(5px);
   }
   to {
-    opacity: 1;
     transform: translateY(0);
   }
 }
