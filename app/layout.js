@@ -1,43 +1,35 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
+
 import Navbar from "./components/Navbar/Navbar";
 import Footer from "./components/Footer/Footer";
-import Loader from "./components/Loader/Loader";
+
 import "./globals.css";
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
 
-  const [loading, setLoading] = useState(true);
-  const pageReady = useRef(false);
-
+  // 🔥 safety reset after navigation
   useEffect(() => {
-    const onLoad = () => { pageReady.current = true; };
-    if (document.readyState === "complete") {
-      pageReady.current = true;
-    } else {
-      window.addEventListener("load", onLoad);
-      return () => window.removeEventListener("load", onLoad);
-    }
-  }, []);
+    document.body.style.pointerEvents = "auto";
+    document.body.style.overflow = "auto";
+  }, [pathname]);
 
-  const handleLoopComplete = () => {
-    if (pageReady.current) setLoading(false);
-  };
+  const isAuthPage = pathname.startsWith("/auth");
 
   return (
     <html lang="en">
       <body>
 
-        {loading && <Loader onLoopComplete={handleLoopComplete} />}
-
-        <Navbar />
+        {!isAuthPage && <Navbar />}
 
         <main className="pageContent">
           {children}
         </main>
 
-        <Footer />
+        {!isAuthPage && <Footer />}
 
       </body>
     </html>

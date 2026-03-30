@@ -1,24 +1,790 @@
-*, *::before, *::after {
+/* ─── Reset ──────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html {
+html,
+body {
   height: 100%;
 }
 
 body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
   background: #000;
 }
 
-.pageContent {
-  flex: 1;
+/* ─── Layout ─────────────────────────────────────────────── */
+.authContainer {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100vw;
+  height: 100vh;
 }
 
+.authLeft,
+.authRight {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+}
+
+/* ─── Left Panel ─────────────────────────────────────────── */
+.authLeft {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SLIDER  (lives inside .authLeft)
+═══════════════════════════════════════════════════════════ */
+
+.slider {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+/* ── Slides ── */
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  will-change: opacity;
+  transition: opacity 0.9s ease-in-out;
+  pointer-events: none;
+}
+
+.slide--active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.slide__image {
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 3s ease;
+}
+
+.slide--active .slide__image {
+  transform: scale(1.06);
+}
+
+.slide__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.30) 45%,
+    rgba(0, 0, 0, 0.10) 100%
+  );
+}
+
+/* ── Captions ── */
+.slide__caption {
+  position: absolute;
+  bottom: 100px;
+  left: 60px;
+  right: 60px;
+  z-index: 10;
+  color: #fff;
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+  transition:
+    opacity   0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.slide__caption--active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition-delay: 0.28s;
+}
+
+.slide__subtitle {
+  font-size: 13px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  opacity: 0.78;
+  margin-bottom: 14px;
+}
+
+.slide__title {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: 0.12em;
+  max-width: 480px;
+}
+
+/* ── Line Indicators ── */
+.slider__indicators {
+  position: absolute;
+  bottom: 52px;
+  left: 60px;
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.indicator {
+  width: 28px;
+  height: 1.5px;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* animated fill  */
+.indicator::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.indicator--active {
+  width: 48px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.indicator--active::after {
+  transform: scaleX(1);
+  animation: progress 4.8s linear forwards;
+}
+
+@keyframes progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RIGHT PANEL
+═══════════════════════════════════════════════════════════ */
+
+.authRight {
+  position: relative;
+  background: #fff;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100vh;
+  padding-bottom: 120px;
+}
+
+.authRight::-webkit-scrollbar       { width: 3px; }
+.authRight::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
+
+/* ─── Close Button ───────────────────────────────────────── */
+.closeBtn {
+  position: fixed;
+  top: 30px;
+  right: 40px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 20;
+  color: #333;
+  transition: opacity 0.2s;
+}
+
+.closeBtn:hover { opacity: 0.5; }
+
+/* ─── Top Tab Bar ────────────────────────────────────────── */
+.authTopBar {
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+  display: flex;
+  gap: 10px;
+  padding: 60px 80px 20px;
+  font-size: 20px;
+}
+
+
+.authTopBar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 80px;
+  right: 80px;
+  height: 1px;
+  background: #e5e5e5;
+}
+
+.authTopBar span {
+  cursor: pointer;
+  color: #999;
+  position: relative;
+  display: inline-block;
+  padding: 12px 20px;  
+  letter-spacing: 0.04em;
+  transition: color 0.25s ease;
+  width: fit-content;
+}
+
+.authTopBar span::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  bottom: -19px; 
+  width: calc(100% - 40px); 
+  height: 1px;
+  background: #000;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.authTopBar span::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  bottom: -20px;
+  left: -18px;
+  right: -18px;
+
+}
+
+.authTopBar .active::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+.authTopBar .active        { color: #000; }
+.authTopBar .active::after { transform: translateX(-50%) scaleX(1); }
+
+/* ─── Form Box ───────────────────────────────────────────── */
+.formBox {
+  width: 100%;
+  padding: 60px 80px 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Input Group — base ─────────────────────────────────── */
+.inputGroup {
+  width: 100%;
+  margin-bottom: 44px;
+  position: relative;
+}
+
+.inputGroup label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  color: #888;
+}
+
+.inputGroup input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d0d0d0;
+  padding: 10px 0;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  color: #111;
+  font-family: inherit;
+  transition: border-color 0.25s ease;
+}
+
+.inputGroup input:focus {
+  border-bottom-color: #ccc; /* or keep same as default */
+}
+
+/* ─── Floating Input System ──────────────────────────────── */
+.inputGroup.floating {
+  position: relative;
+  margin-bottom: 52px;
+}
+
+.inputGroup.floating input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d0d0d0;
+  padding: 25px 0 15px;
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+  color: #111;
+  font-family: inherit;
+}
+
+.inputGroup.floating label {
+  position: absolute;
+  left: 0;
+  top: 18px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #888;
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.inputGroup.floating input:focus + label,
+.inputGroup.floating input:valid + label {
+  top: 2px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #111;
+}
+
+.inputGroup.floating input:focus { caret-color: #111; }
+
+.inputGroup.floating .underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 1.5px;
+  background: #ccc;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  display: none;
+}
+
+/* ─── Input Field Wrapper (password inner) ───────────────── */
+.inputField {
+  position: relative;
+}
+
+.inputField input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #d0d0d0;
+  padding: 25px 0 15px;
+  font-size: 16px;
+  background: transparent;
+  outline: none;
+  color: #111;
+  font-family: inherit;
+}
+
+.inputField .eyeBtn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.inputField .underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0%;
+  height: 1.5px;
+  background: #ccc;
+  transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.inputField input:focus {
+  border-bottom-color: #ccc;
+}
+
+/* ─── Password Box ───────────────────────────────────────── */
+.passwordBox {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.passwordBox .eyeBtn    { position: absolute; right: 0; top: 18px; }
+.passwordBox .forgotLink { margin-top: 20px; }
+.passwordBox .underline  { bottom: 5px; }
+
+/* ─── Eye Button ─────────────────────────────────────────── */
+.eyeBtn {
+  position: absolute;
+  right: 0;
+  top: 34px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #999;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.eyeBtn:hover { color: #333; }
+
+/* ─── Forgot Link ────────────────────────────────────────── */
+.forgotLink {
+  display: block;
+  width: 100%;
+  text-align: right;
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #888;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.forgotLink:hover { color: #111; }
+
+/* ─── Password Rules ─────────────────────────────────────── */
+.passwordRules {
+  list-style: none;
+  margin: -24px 0 28px;
+  padding: 12px 16px;
+  background: #f8f8f8;
+  border-left: 2px solid #d0d0d0;
+}
+
+.passwordRules li {
+  font-size: 12px;
+  color: #777;
+  letter-spacing: 0.04em;
+  line-height: 2;
+}
+
+.passwordRules li::before { content: "– "; color: #bbb; }
+
+/* ─── Form Row ───────────────────────────────────────────── */
+.formRow {
+  display: flex;
+  gap: 30px;
+}
+
+.formRow .inputGroup { flex: 1; }
+
+/* ─── Phone Row ──────────────────────────────────────────── */
+.phoneRow {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #d0d0d0;
+  transition: border-color 0.25s ease;
+}
+
+.phoneRow:focus-within { border-bottom-color: #111; }
+
+.phoneDivider {
+  width: 1px;
+  height: 20px;
+  background: #ddd;
+  margin: 0 14px;
+  flex-shrink: 0;
+}
+
+.phoneInput {
+  flex: 1;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 16px;
+  outline: none;
+  background: transparent;
+  color: #111;
+  font-family: inherit;
+}
+
+/* ─── Country Selector ───────────────────────────────────── */
+.countrySelector {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.prefixBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  font-size: 15px;
+  color: #111;
+}
+
+.flagImg {
+  width: 22px;
+  height: 15px;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+}
+
+.prefixCode { font-size: 15px; letter-spacing: 0.02em; color: #111; }
+
+.prefixArrow {
+  font-size: 11px;
+  color: #999;
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.prefixArrow.open { transform: rotate(180deg); }
+
+/* ─── Country Dropdown ───────────────────────────────────── */
+.countryDropdown {
+  position: absolute;
+  left: -12px;
+  width: 300px;
+  background: #fff;
+  border: 1.5px solid #eee;
+  z-index: 1000;
+  border-radius: 2px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.countryDropdown.visible {
+  top: calc(100% + 16px);
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.countryDropdown.openUp {
+  bottom: calc(100% + 16px);
+  top: auto;
+  transform: translateY(0);
+}
+
+.dropSearchWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+}
+
+.searchIcon { color: #bbb; flex-shrink: 0; }
+
+.dropSearchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  color: #333;
+  font-family: inherit;
+  background: transparent;
+}
+
+.dropSearchInput::placeholder { color: #bbb; letter-spacing: 0.04em; }
+
+.countryList {
+  list-style: none;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 6px 0;
+}
+
+.countryList::-webkit-scrollbar       { width: 3px; }
+.countryList::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 10px; }
+
+.countryItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.countryItem:hover    { background: #f9f9f9; }
+.countryItem.selected { background: #f4f4f4; }
+
+.countryLabel { font-size: 14px; color: #333; letter-spacing: 0.02em; }
+.countryEmpty { font-size: 13px; color: #bbb; padding: 16px; text-align: center; letter-spacing: 0.04em; }
+
+/* ─── Checkbox ───────────────────────────────────────────── */
+.checkboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  margin-bottom: 28px;
+}
+
+.checkboxInput { display: none; }
+
+.checkboxCustom {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #bbb;
+  display: inline-block;
+  position: relative;
+  margin-top: 2px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.checkboxInput:checked + .checkboxCustom {
+  background: #111;
+  border-color: #111;
+}
+
+.checkboxInput:checked + .checkboxCustom::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 4.5px;
+  width: 5px;
+  height: 9px;
+  border-right: 1.5px solid #fff;
+  border-bottom: 1.5px solid #fff;
+  transform: rotate(45deg);
+}
+
+.checkboxText {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+/* ─── Buttons ────────────────────────────────────────────── */
+.btnPrimary {
+  width: 100%;
+  background: #111;
+  color: #fff;
+  padding: 17px;
+  border: 1px solid #111;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  font-family: inherit;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.btnPrimary:hover:not(:disabled) { background: #333; border-color: #333; }
+
+.btnPrimary:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  cursor: not-allowed;
+}
+
+.btnOutline {
+  flex: 1;
+  background: transparent;
+  color: #111;
+  padding: 17px;
+  border: 1px solid #111;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  font-family: inherit;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.btnOutline:hover { background: #111; color: #fff; }
+
+/* ─── Forgot Password Panel ──────────────────────────────── */
+.forgotBox { display: flex; flex-direction: column; }
+
+.forgotTitle {
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #111;
+  margin-bottom: 16px;
+}
+
+.forgotDesc {
+  font-size: 14px;
+  color: #777;
+  line-height: 1.8;
+  letter-spacing: 0.03em;
+  margin-bottom: 44px;
+}
+
+.forgotActions { display: flex; gap: 16px; margin-top: 4px; }
+.forgotActions .btnOutline,
+.forgotActions .btnPrimary { flex: 1; }
+
+/* ─── Create Account Section ─────────────────────────────── */
+.createAccountSection { margin-top: 40px; }
+
+.requiredText { font-size: 12px; color: #777; margin-bottom: 30px; }
+
+.createDivider {
+  width: 100%;
+  height: 1px;
+  background: #ececec;
+  margin-bottom: 30px;
+}
+
+.createTitle {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #111;
+  margin-bottom: 24px;
+}
+
+.createBenefits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 60px;
+  margin-bottom: 40px;
+}
+
+.createBenefits ul { list-style: none; padding: 0; margin: 0; }
+
+.createBenefits li {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 12px;
+  position: relative;
+  padding-left: 14px;
+}
+
+.createBenefits li::before {
+  content: "▪";
+  position: absolute;
+  left: 0;
+  color: #111;
+  font-size: 10px;
+  top: 2px;
+}
+
+.createBtn {
+  width: 100%;
+  padding: 18px;
+  background: transparent;
+  color: #111;
+  border: 1px solid #111;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.createBtn:hover { background: #111; color: #fff; }
+
+/* ─── Fonts ──────────────────────────────────────────────── */
 @font-face {
   font-family: "Geometos";
   src: url("/fonts/geometos.ttf");
@@ -29,10 +795,36 @@ body {
   src: url("/fonts/geometos-soft.ttf");
 }
 
-.font-geometos {
-  font-family: "Geometos", sans-serif;
-}
+.font-geometos     { font-family: "Geometos", serif; }
+.font-geometosSoft { font-family: "GeometosSoft", serif; }
 
-.font-geometosSoft {
-  font-family: "GeometosSoft", sans-serif;
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .authContainer { grid-template-columns: 1fr; }
+
+  .authLeft { display: none; }
+
+  .authTopBar {
+    position: relative;
+    padding: 60px 80px 25px;
+  }
+
+  .authTopBar::after {
+    content: "";
+    position: absolute;
+    left: 80px;
+    right: 80px;
+    bottom: 0;
+    height: 1px;
+    background: #e5e5e5;
+  }
+
+  .formBox  { padding: 48px 40px 60px; }
+  .closeBtn { right: 24px; top: 20px; }
+
+  .formRow { flex-direction: column; gap: 0; }
+
+  .slide__title   { font-size: 24px; }
+  .slide__caption { left: 40px; right: 40px; bottom: 80px; }
+  .slider__indicators { left: 40px; }
 }
