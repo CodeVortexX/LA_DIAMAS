@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,52 +24,68 @@ const navItems = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [activeMenu, setActiveMenu] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
   const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0 });
 
+  // 🔥 NEW: USER LOGIN STATE
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const itemRefs = useRef([]);
   const lastScrollY = useRef(0);
   const closeTimeout = useRef(null);
+  
+  // 🔥 CHECK LOGIN (localStorage)
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) setIsLoggedIn(true);
+  }, []);
 
-  // 🔥 HANDLE HOVER
-const handleHover = (index, key) => {
-  if (index !== -1) {
-    const el = itemRefs.current[index];
-
-    if (el) {
-      const rect = el.getBoundingClientRect();
-      const parentRect = el.parentElement.getBoundingClientRect();
-
-      setUnderlineStyle({
-        left: rect.left - parentRect.left,
-        width: rect.width,
-      });
+  // 🔥 HANDLE PROFILE CLICK
+  const handleProfileClick = () => {
+    if (isLoggedIn) {
+      window.location.href = "/profile"; // or /dashboard
+    } else {
+      window.location.href = "/auth";
     }
-  } else {
-    // 🔥 for search icon (no underline)
-    setUnderlineStyle({ left: 0, width: 0 });
-  }
+  };
 
-  setActiveMenu(key);
-  setIsOpen(true);
-};
+  // ================= EXISTING CODE SAME =================
 
-const handleSearchClick = () => {
-  if (activeMenu === "search") {
-    // close if already open
-    setIsOpen(false);
-    setActiveMenu(null);
-  } else {
-    // open search
-    setUnderlineStyle({ left: 0, width: 0 }); // remove underline
-    setActiveMenu("search");
+  const handleHover = (index, key) => {
+    if (index !== -1) {
+      const el = itemRefs.current[index];
+
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        const parentRect = el.parentElement.getBoundingClientRect();
+
+        setUnderlineStyle({
+          left: rect.left - parentRect.left,
+          width: rect.width,
+        });
+      }
+    } else {
+      setUnderlineStyle({ left: 0, width: 0 });
+    }
+
+    setActiveMenu(key);
     setIsOpen(true);
-  }
-};
+  };
 
-  // 🔥 HANDLE LEAVE
+  const handleSearchClick = () => {
+    if (activeMenu === "search") {
+      setIsOpen(false);
+      setActiveMenu(null);
+    } else {
+      setUnderlineStyle({ left: 0, width: 0 });
+      setActiveMenu("search");
+      setIsOpen(true);
+    }
+  };
+
   const handleLeave = () => {
     closeTimeout.current = setTimeout(() => {
       setIsOpen(false);
@@ -77,15 +94,12 @@ const handleSearchClick = () => {
     }, 300);
   };
 
-  // 🔥 SCROLL CONTROL
   useEffect(() => {
     const handleScroll = () => {
       const currentScroll = window.scrollY;
 
       if (currentScroll > lastScrollY.current && currentScroll > 80) {
         setShowNavbar(false);
-
-        // reset everything on hide
         setIsOpen(false);
         setActiveMenu(null);
         setUnderlineStyle({ left: 0, width: 0 });
@@ -99,6 +113,12 @@ const handleSearchClick = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+  setIsOpen(false);
+  setActiveMenu(null);
+  setUnderlineStyle({ left: 0, width: 0 });
+}, [pathname]);
 
   return (
     <div
@@ -127,7 +147,6 @@ const handleSearchClick = () => {
             </li>
           ))}
 
-          {/* UNDERLINE */}
           <span
             className={styles.underline}
             style={{
@@ -138,27 +157,30 @@ const handleSearchClick = () => {
           />
         </ul>
 
-<div className={styles.icons}>
+        {/* ICONS */}
+        <div className={styles.icons}>
 
-  {/* SEARCH FIRST */}
-  <button
-    className={styles.iconBtn}
-    onClick={handleSearchClick}
-  >
-    <Image src="/icons/search_icon.svg" alt="search" width={24} height={24} />
-  </button>
+          {/* SEARCH */}
+          <button className={styles.iconBtn} onClick={handleSearchClick}>
+            <Image src="/icons/search_icon.svg" alt="search" width={24} height={24} />
+          </button>
 
-  {/* PROFILE */}
-  <button className={styles.iconBtn}>
-    <Image src="/icons/user_profile_icon.svg" alt="user" width={22} height={22} />
-  </button>
+          {/* 🔥 PROFILE UPDATED */}
+          <button className={styles.iconBtn} onClick={handleProfileClick}>
+            <Image
+              src="/icons/user_profile_icon.svg"
+              alt="user"
+              width={22}
+              height={22}
+            />
+          </button>
 
-  {/* CART */}
-  <button className={styles.iconBtn}>
-    <Image src="/icons/cart.svg" alt="cart" width={22} height={22} />
-  </button>
+          {/* CART */}
+          <button className={styles.iconBtn}>
+            <Image src="/icons/cart.svg" alt="cart" width={22} height={22} />
+          </button>
 
-</div>
+        </div>
 
         {/* DROPDOWN */}
         <div className={`${styles.dropdownWrapper} ${isOpen ? styles.open : styles.close}`}>

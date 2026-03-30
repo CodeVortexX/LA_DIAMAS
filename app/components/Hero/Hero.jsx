@@ -16,14 +16,14 @@ export default function Hero() {
         playsInline
       />
 
-      {/* 🖤 DARK OVERLAY (for luxury feel) */}
+      {/* 🖤 DARK OVERLAY */}
       <div className={styles.overlay}></div>
 
       {/* ✨ CONTENT */}
       <div className={styles.content}>
         <h1 className={styles.title}>Timeless Elegance</h1>
         <p className={styles.subtitle}>
-          DISCOVER  HANCRAFTED DIAMOND JEWELLERY
+          DISCOVER HANDCRAFTED DIAMOND JEWELLERY
         </p>
       </div>
 
