@@ -20,14 +20,14 @@ export default function Footer() {
         <FooterColumn title="CUSTOMER CARE" links={customerCare} />
 
         {/* ABOUT */}
-        <FooterColumn title="ABOUT AL DIAMAS" links={aboutLinks} />
+        <FooterColumn title="ABOUT LA DIAMAS" links={aboutLinks} />
 
         {/* SERVICES */}
         <FooterColumn title="SERVICES & POLICIES" links={serviceLinks} />
 
         {/* NEWSLETTER */}
         <div className={`${styles.column} ${styles.newsletter}`}>
-          <h4 className={styles.heading}>FROM AL DIAMAS</h4>
+          <h4 className={styles.heading}>FROM LA DIAMAS</h4>
 
           <p className={styles.newsletterText}>
             BE THE FIRST TO DISCOVER NEW DESIGNS AND EXCLUSIVE RELEASES.

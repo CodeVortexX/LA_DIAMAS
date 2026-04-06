@@ -1,0 +1,124 @@
+.blog-container {
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.content {
+  max-width: 1100px;
+  margin: auto;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: gray;
+  margin-bottom: 30px;
+}
+
+.main-image img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.text-content p {
+    text-align: center;
+  margin-bottom: 40px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.two-images {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.two-images img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* 🔥 Carousel */
+
+.related-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.related-section h2 {
+  margin-bottom: 20px;
+}
+
+.carousel {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: auto;
+}
+/* 🔥 SLIDER */
+
+.slider-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.slider {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* 🔥 PREMIUM SLIDER */
+
+.slider-section {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.slider {
+  overflow: hidden;
+  width: 100%;
+  margin-top: 30px;
+  background: transparent; /* ❌ no black bg */
+}
+
+.slide-track {
+  display: flex;
+  gap: 10px;
+  width: max-content;
+  animation: scroll 18s linear infinite; /* slower = premium */
+}
+
+.slide-item {
+  flex: 0 0 auto;
+}
+
+/* 🔥 Ring Image Styling (Premium Look) */
+.ring-img {
+  width: 200px;
+  height: 200px;
+  object-fit: contain; /* important → no crop */
+  background: transparent; /* remove bg */
+  transition: transform 0.4s ease;
+}
+
+/* Hover Effect (Luxury Feel) */
+.ring-img:hover {
+  transform: scale(1.1);
+}
+
+/* 🔥 Smooth Infinite Scroll */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
